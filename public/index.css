@@ -365,7 +365,6 @@ h4 i {
 .stars-rating label {
 	cursor: pointer;
 	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	color: var(--border-light);
 	font-size: 1.75rem;
 	line-height: 1;
 	display: flex;
@@ -373,14 +372,22 @@ h4 i {
 	justify-content: center;
 }
 
-.stars-rating label:hover,
-.stars-rating label:hover ~ label {
-	color: var(--star-color);
+.stars-rating label i {
+	font-weight: 400;
+	color: var(--border-light);
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stars-rating label:hover i,
+.stars-rating label:hover ~ label i {
+	color: #fbbf24;
+	font-weight: 900;
 	transform: scale(1.1);
 }
 
-.stars-rating input:checked ~ label {
-	color: var(--star-color);
+.stars-rating input:checked ~ label i {
+	color: #fbbf24;
+	font-weight: 900;
 }
 
 .btn {
