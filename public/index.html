@@ -3,54 +3,82 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>🎬 Cinema - Avaliação de Filmes</title>
+		<title>Cinema — Avaliação de Filmes</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+			integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
 		<link rel="stylesheet" href="index.css" />
 	</head>
 	<body>
-		<!-- HEADER COM NAVEGAÇÃO -->
 		<header class="header">
 			<div class="container">
 				<div class="logo">
-					<h1>🎬 CINEMA</h1>
+					<h1><i class="fas fa-film"></i> Cinema</h1>
 				</div>
 				<nav class="nav">
-					<button class="nav-btn active" data-page="inicio">Filmes</button>
-					<button class="nav-btn" data-page="admin">Admin</button>
+					<button class="nav-btn active" data-page="inicio">
+						<i class="fas fa-film"></i>
+						<span>Filmes</span>
+					</button>
+					<button class="nav-btn" data-page="admin">
+						<i class="fas fa-gear"></i>
+						<span>Admin</span>
+					</button>
 				</nav>
 			</div>
 		</header>
 
-		<!-- PÁGINA INICIAL - LISTA DE FILMES -->
 		<div id="inicio" class="page active">
 			<div class="container">
 				<h2 class="section-title">Filmes em Destaque</h2>
-				<div class="filmes-grid" id="filmesGrid">
-					<!-- Filmes serão inseridos aqui via JS -->
-				</div>
+				<div class="filmes-grid" id="filmesGrid"></div>
 			</div>
 		</div>
 
-		<!-- PÁGINA ADMIN -->
 		<div id="admin" class="page">
 			<div class="container">
 				<h2 class="section-title">Painel de Administração</h2>
 
-				<!-- SEÇÃO: CRIAR NOVO FILME -->
 				<div class="admin-section">
-					<h3>➕ Criar Novo Filme</h3>
+					<h3><i class="fas fa-plus-circle"></i> Criar Novo Filme</h3>
 					<form id="formNovoFilme" class="form-admin">
 						<div class="form-group">
-							<label for="titulo">Título do Filme *</label>
-							<input type="text" id="titulo" name="titulo" required />
+							<label for="titulo">
+								<i class="fas fa-heading"></i>
+								Título do Filme
+							</label>
+							<input
+								type="text"
+								id="titulo"
+								name="titulo"
+								placeholder="Digite o título do filme"
+								required
+							/>
 						</div>
 
 						<div class="form-group">
-							<label for="sinopse">Sinopse *</label>
-							<textarea id="sinopse" name="sinopse" rows="4" required></textarea>
+							<label for="sinopse">
+								<i class="fas fa-align-left"></i>
+								Sinopse
+							</label>
+							<textarea
+								id="sinopse"
+								name="sinopse"
+								rows="4"
+								placeholder="Descreva a história do filme"
+								required
+							></textarea>
 						</div>
 
 						<div class="form-group">
-							<label for="poster">Link da Imagem (Poster) *</label>
+							<label for="poster">
+								<i class="fas fa-image"></i>
+								URL da Imagem
+							</label>
 							<input
 								type="url"
 								id="poster"
@@ -60,13 +88,15 @@
 							/>
 						</div>
 
-						<button type="submit" class="btn btn-primary">Criar Filme</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-plus"></i>
+							Criar Filme
+						</button>
 					</form>
 				</div>
 
-				<!-- SEÇÃO: EDITAR FILMES -->
 				<div class="admin-section">
-					<h3>✏️ Editar Filmes</h3>
+					<h3><i class="fas fa-list"></i> Gerenciar Filmes</h3>
 					<div id="filmesEditavelList" class="filmes-admin-list">
 						<!-- Filmes aparecem aqui -->
 					</div>
@@ -74,11 +104,10 @@
 			</div>
 		</div>
 
-		<!-- MODAL - AVALIAR FILME -->
 		<div id="modalAvaliacao" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
-				<h3>⭐ Avaliar Filme</h3>
+				<h3><i class="fas fa-star"></i> Avaliar Filme</h3>
 
 				<div class="modal-filme-info">
 					<img id="modalFilmePoster" src="" alt="Poster" />
@@ -90,78 +119,96 @@
 
 				<form id="formAvaliacao">
 					<div class="form-group">
-						<label for="nota">Nota (1 a 5 estrelas) *</label>
+						<label for="nota">Sua Avaliação</label>
 						<div class="stars-rating">
 							<input type="radio" name="nota" value="5" id="star5" />
-							<label for="star5">⭐</label>
+							<label for="star5"><i class="fas fa-star"></i></label>
 
 							<input type="radio" name="nota" value="4" id="star4" />
-							<label for="star4">⭐</label>
+							<label for="star4"><i class="fas fa-star"></i></label>
 
 							<input type="radio" name="nota" value="3" id="star3" />
-							<label for="star3">⭐</label>
+							<label for="star3"><i class="fas fa-star"></i></label>
 
 							<input type="radio" name="nota" value="2" id="star2" />
-							<label for="star2">⭐</label>
+							<label for="star2"><i class="fas fa-star"></i></label>
 
 							<input type="radio" name="nota" value="1" id="star1" />
-							<label for="star1">⭐</label>
+							<label for="star1"><i class="fas fa-star"></i></label>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="comentario">Comentário (opcional)</label>
+						<label for="comentario">
+							<i class="fas fa-comment"></i>
+							Comentário (opcional)
+						</label>
 						<textarea
 							id="comentario"
 							name="comentario"
 							rows="3"
-							placeholder="Qual é sua opinião sobre este filme?"
+							placeholder="Compartilhe sua opinião sobre o filme..."
 						></textarea>
 					</div>
 
-					<button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-paper-plane"></i>
+						Enviar Avaliação
+					</button>
 				</form>
 
-				<!-- LISTA DE AVALIAÇÕES DO FILME -->
 				<div class="avaliacoes-list">
-					<h4>Avaliações Recentes</h4>
+					<h4><i class="fas fa-comments"></i> Avaliações</h4>
 					<div id="avaliacoesList"></div>
 				</div>
 			</div>
 		</div>
 
-		<!-- MODAL - EDITAR FILME -->
 		<div id="modalEdicao" class="modal">
 			<div class="modal-content modal-edicao">
 				<span class="close">&times;</span>
-				<h3>✏️ Editar Filme</h3>
+				<h3><i class="fas fa-pen-to-square"></i> Editar Filme</h3>
 
 				<form id="formEdicaoFilme">
 					<input type="hidden" id="editFilmeId" />
 
 					<div class="form-group">
-						<label for="editTitulo">Título *</label>
+						<label for="editTitulo">
+							<i class="fas fa-heading"></i>
+							Título
+						</label>
 						<input type="text" id="editTitulo" required />
 					</div>
 
 					<div class="form-group">
-						<label for="editSinopse">Sinopse *</label>
+						<label for="editSinopse">
+							<i class="fas fa-align-left"></i>
+							Sinopse
+						</label>
 						<textarea id="editSinopse" rows="4" required></textarea>
 					</div>
 
 					<div class="form-group">
-						<label for="editPoster">Link da Imagem *</label>
+						<label for="editPoster">
+							<i class="fas fa-image"></i>
+							URL da Imagem
+						</label>
 						<input type="url" id="editPoster" required />
 					</div>
 
 					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Salvar Alterações</button>
-						<button type="button" class="btn btn-danger" id="btnDeletarFilme">Deletar Filme</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-check"></i>
+							Salvar Alterações
+						</button>
+						<button type="button" class="btn btn-danger" id="btnDeletarFilme">
+							<i class="fas fa-trash"></i>
+							Deletar Filme
+						</button>
 					</div>
 				</form>
 			</div>
 		</div>
 
-		<!-- TOAST DE NOTIFICAÇÕES -->
 		<div id="toast" class="toast"></div>
 
 		<script src="index.js"></script>

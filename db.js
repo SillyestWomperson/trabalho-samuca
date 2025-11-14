@@ -3,7 +3,6 @@ const path = require("path");
 
 const DB_PATH = path.join(__dirname, "movies.db");
 
-// Conecta no banco de dados
 const db = new sqlite3.Database(DB_PATH, (err) => {
 	if (err) {
 		console.error("Erro ao conectar ao banco de dados:", err);
@@ -13,10 +12,8 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
 	}
 });
 
-// Função para inicializar tabelas
 function initializeTables() {
 	db.serialize(() => {
-		// Tabela de filmes
 		db.run(
 			`
       CREATE TABLE IF NOT EXISTS filmes (
@@ -37,7 +34,6 @@ function initializeTables() {
 			}
 		);
 
-		// Tabela de avaliações
 		db.run(
 			`
       CREATE TABLE IF NOT EXISTS avaliacoes (

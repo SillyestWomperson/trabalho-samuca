@@ -14,20 +14,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// Rotas da API
 app.use("/api", dbRoutes);
 
-// Rotas principais
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Erro not found
 app.use((req, res) => {
 	res.status(404).json({ erro: "Rota não encontrada" });
 });
 
-// Iniciar servidor
 app.listen(PORT, () => {
 	console.log(`\nServidor: http://localhost:${PORT}\n`);
 	console.log(`Frontend: http://localhost:${PORT}`);

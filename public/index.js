@@ -1,27 +1,21 @@
-// ============== ESTADO GLOBAL ==============
 let filmeAtualId = null;
 let filmes = [];
 
-// ============== ELEMENTOS DO DOM ==============
 const filmesGrid = document.getElementById("filmesGrid");
 const filmesEditavelList = document.getElementById("filmesEditavelList");
 const navBtns = document.querySelectorAll(".nav-btn");
 const pages = document.querySelectorAll(".page");
 
-// Modals
 const modalAvaliacao = document.getElementById("modalAvaliacao");
 const modalEdicao = document.getElementById("modalEdicao");
 const closes = document.querySelectorAll(".close");
 
-// Formulários
 const formNovoFilme = document.getElementById("formNovoFilme");
 const formAvaliacao = document.getElementById("formAvaliacao");
 const formEdicaoFilme = document.getElementById("formEdicaoFilme");
 
-// Toast
 const toast = document.getElementById("toast");
 
-// ============== FUNÇÕES DE NAVEGAÇÃO ==============
 function mostrarPagina(nomePagina) {
 	pages.forEach((page) => page.classList.remove("active"));
 	const pagina = document.getElementById(nomePagina);
@@ -30,13 +24,11 @@ function mostrarPagina(nomePagina) {
 	navBtns.forEach((btn) => btn.classList.remove("active"));
 	document.querySelector(`[data-page="${nomePagina}"]`).classList.add("active");
 
-	// Se for admin, recarregar lista de filmes editáveis
 	if (nomePagina === "admin") {
 		carregarFilmesEditaveis();
 	}
 }
 
-// ============== FUNÇÕES DE NOTIFICAÇÃO ==============
 function mostrarToast(mensagem, tipo = "sucesso") {
 	toast.textContent = mensagem;
 	toast.className = `toast toast-${tipo} show`;
@@ -46,9 +38,6 @@ function mostrarToast(mensagem, tipo = "sucesso") {
 	}, 3000);
 }
 
-// ============== FUNÇÕES DE API ==============
-
-// Carregar filmes
 async function carregarFilmes() {
 	try {
 		const response = await fetch("/api/filmes");
@@ -62,13 +51,12 @@ async function carregarFilmes() {
 	}
 }
 
-// Renderizar filmes na grade
 function renderizarFilmes() {
 	filmesGrid.innerHTML = "";
 
 	filmes.forEach((filme) => {
 		const mediaTexto = filme.media_notas
-			? `${filme.media_notas} ⭐ (${filme.total_avaliacoes} avaliações)`
+			? `<i class="fas fa-star"></i> ${filme.media_notas} (${filme.total_avaliacoes} avaliações)`
 			: "Sem avaliações";
 
 		const card = document.createElement("div");
@@ -77,7 +65,10 @@ function renderizarFilmes() {
       <div class="filme-poster">
         <img src="${filme.poster}" alt="${filme.titulo}">
         <div class="filme-overlay">
-          <button class="btn btn-primary" onclick="abrirModalAvaliacao(${filme.id})">⭐ Avaliar</button>
+          <button class="btn btn-primary" onclick="abrirModalAvaliacao(${filme.id})">
+            <i class="fas fa-star"></i>
+            Avaliar
+          </button>
         </div>
       </div>
       <div class="filme-info">
@@ -91,7 +82,6 @@ function renderizarFilmes() {
 	});
 }
 
-// Carregar filmes para edição (Admin)
 async function carregarFilmesEditaveis() {
 	try {
 		const response = await fetch("/api/filmes");
@@ -105,7 +95,6 @@ async function carregarFilmesEditaveis() {
 	}
 }
 
-// Renderizar filmes na seção admin
 function renderizarFilmesEditaveis(filmesList) {
 	filmesEditavelList.innerHTML = "";
 
@@ -125,13 +114,15 @@ function renderizarFilmesEditaveis(filmesList) {
           <p>${filme.sinopse.substring(0, 100)}...</p>
         </div>
       </div>
-      <button class="btn btn-secondary" onclick="abrirModalEdicao(${filme.id})">✏️ Editar</button>
+      <button class="btn btn-secondary" onclick="abrirModalEdicao(${filme.id})">
+        <i class="fas fa-pen"></i>
+        Editar
+      </button>
     `;
 		filmesEditavelList.appendChild(item);
 	});
 }
 
-// Criar novo filme
 formNovoFilme.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
@@ -148,7 +139,7 @@ formNovoFilme.addEventListener("submit", async (e) => {
 
 		if (!response.ok) throw new Error("Erro ao criar filme");
 
-		mostrarToast("🎬 Filme criado com sucesso!", "sucesso");
+		mostrarToast("Filme criado com sucesso!", "sucesso");
 		formNovoFilme.reset();
 		carregarFilmes();
 		carregarFilmesEditaveis();
@@ -158,27 +149,25 @@ formNovoFilme.addEventListener("submit", async (e) => {
 	}
 });
 
-// ============== FUNÇÕES DO MODAL DE AVALIAÇÃO ==============
-
 function abrirModalAvaliacao(filmeId) {
 	filmeAtualId = filmeId;
 	const filme = filmes.find((f) => f.id === filmeId);
 
 	if (!filme) return;
 
-	// Preencher informações do filme
 	document.getElementById("modalFilmePoster").src = filme.poster;
 	document.getElementById("modalFilmeTitulo").textContent = filme.titulo;
 	document.getElementById("modalFilmeSinopse").textContent = filme.sinopse;
 
-	// Limpar form
 	formAvaliacao.reset();
-	document.querySelector('input[name="nota"]').checked = false;
 
-	// Carregar avaliações
+	const labels = document.querySelectorAll(".stars-rating label");
+	labels.forEach((label) => {
+		label.style.color = "";
+	});
+
 	carregarAvaliacoes(filmeId);
 
-	// Abrir modal
 	modalAvaliacao.style.display = "block";
 }
 
@@ -187,7 +176,6 @@ function fecharModalAvaliacao() {
 	filmeAtualId = null;
 }
 
-// Carregar avaliações de um filme
 async function carregarAvaliacoes(filmeId) {
 	try {
 		const response = await fetch(`/api/filmes/${filmeId}/avaliacoes`);
@@ -200,7 +188,6 @@ async function carregarAvaliacoes(filmeId) {
 	}
 }
 
-// Renderizar avaliações
 function renderizarAvaliacoes(avaliacoes) {
 	const avaliacoesList = document.getElementById("avaliacoesList");
 	avaliacoesList.innerHTML = "";
@@ -214,13 +201,15 @@ function renderizarAvaliacoes(avaliacoes) {
 		const item = document.createElement("div");
 		item.className = "avaliacao-item";
 		const data = new Date(avaliacao.data_avaliacao).toLocaleDateString("pt-BR");
-		const estrelas = "⭐".repeat(avaliacao.nota);
+		const estrelas = '<i class="fas fa-star"></i>'.repeat(avaliacao.nota);
 
 		item.innerHTML = `
       <div class="avaliacao-header">
         <span class="avaliacao-stars">${estrelas}</span>
         <span class="avaliacao-data">${data}</span>
-        <button class="btn-small btn-danger" onclick="deletarAvaliacao(${avaliacao.id})">🗑️</button>
+        <button class="btn-small btn-danger" onclick="deletarAvaliacao(${avaliacao.id})">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
       ${avaliacao.comentario ? `<p class="avaliacao-comentario">${avaliacao.comentario}</p>` : ""}
     `;
@@ -228,7 +217,6 @@ function renderizarAvaliacoes(avaliacoes) {
 	});
 }
 
-// Enviar avaliação
 formAvaliacao.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
@@ -253,17 +241,16 @@ formAvaliacao.addEventListener("submit", async (e) => {
 
 		if (!response.ok) throw new Error("Erro ao enviar avaliação");
 
-		mostrarToast("⭐ Avaliação registrada com sucesso!", "sucesso");
+		mostrarToast("Avaliação registrada com sucesso!", "sucesso");
 		formAvaliacao.reset();
 		carregarAvaliacoes(filmeAtualId);
-		carregarFilmes(); // Recarregar para atualizar média
+		carregarFilmes();
 	} catch (erro) {
 		console.error("Erro:", erro);
 		mostrarToast("Erro ao enviar avaliação", "erro");
 	}
 });
 
-// Deletar avaliação
 async function deletarAvaliacao(avaliacaoId) {
 	if (!confirm("Deseja deletar esta avaliação?")) return;
 
@@ -282,8 +269,6 @@ async function deletarAvaliacao(avaliacaoId) {
 		mostrarToast("Erro ao deletar avaliação", "erro");
 	}
 }
-
-// ============== FUNÇÕES DO MODAL DE EDIÇÃO ==============
 
 async function abrirModalEdicao(filmeId) {
 	try {
@@ -308,7 +293,6 @@ function fecharModalEdicao() {
 	modalEdicao.style.display = "none";
 }
 
-// Salvar alterações do filme
 formEdicaoFilme.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
@@ -326,7 +310,7 @@ formEdicaoFilme.addEventListener("submit", async (e) => {
 
 		if (!response.ok) throw new Error("Erro ao atualizar filme");
 
-		mostrarToast("✏️ Filme atualizado com sucesso!", "sucesso");
+		mostrarToast("Filme atualizado com sucesso!", "sucesso");
 		fecharModalEdicao();
 		carregarFilmes();
 		carregarFilmesEditaveis();
@@ -336,7 +320,6 @@ formEdicaoFilme.addEventListener("submit", async (e) => {
 	}
 });
 
-// Deletar filme
 document.getElementById("btnDeletarFilme").addEventListener("click", async () => {
 	if (!confirm("⚠️ ATENÇÃO: Deletar este filme removerá todas as suas avaliações. Deseja continuar?")) return;
 
@@ -349,7 +332,7 @@ document.getElementById("btnDeletarFilme").addEventListener("click", async () =>
 
 		if (!response.ok) throw new Error("Erro ao deletar filme");
 
-		mostrarToast("🗑️ Filme deletado com sucesso!", "sucesso");
+		mostrarToast("Filme deletado com sucesso!", "sucesso");
 		fecharModalEdicao();
 		carregarFilmes();
 		carregarFilmesEditaveis();
@@ -359,7 +342,6 @@ document.getElementById("btnDeletarFilme").addEventListener("click", async () =>
 	}
 });
 
-// ============== GERENCIADOR DE MODALS ==============
 closes.forEach((closeBtn) => {
 	closeBtn.addEventListener("click", (e) => {
 		const modal = e.target.closest(".modal");
@@ -376,7 +358,6 @@ window.addEventListener("click", (e) => {
 	}
 });
 
-// ============== GERENCIADOR DE PÁGINAS ==============
 navBtns.forEach((btn) => {
 	btn.addEventListener("click", () => {
 		const pagina = btn.getAttribute("data-page");
@@ -384,7 +365,6 @@ navBtns.forEach((btn) => {
 	});
 });
 
-// ============== INICIALIZAÇÃO ==============
 document.addEventListener("DOMContentLoaded", () => {
 	carregarFilmes();
 });

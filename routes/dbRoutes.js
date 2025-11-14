@@ -2,8 +2,6 @@ const express = require("express");
 const db = require("../db");
 const router = express.Router();
 
-// ============== ROTAS DE FILMES ==============
-
 // GET - Listar todos os filmes com média de avaliações
 router.get("/filmes", (req, res) => {
 	db.all(
@@ -130,8 +128,6 @@ router.delete("/filmes/:id", (req, res) => {
 		res.json({ mensagem: "Filme deletado com sucesso" });
 	});
 });
-
-// ============== ROTAS DE AVALIAÇÕES ==============
 
 // GET - Listar avaliações de um filme
 router.get("/filmes/:filme_id/avaliacoes", (req, res) => {
