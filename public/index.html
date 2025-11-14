@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>🎬 Cinema - Avaliação de Filmes</title>
+		<link rel="stylesheet" href="index.css" />
+	</head>
+	<body>
+		<!-- HEADER COM NAVEGAÇÃO -->
+		<header class="header">
+			<div class="container">
+				<div class="logo">
+					<h1>🎬 CINEMA</h1>
+				</div>
+				<nav class="nav">
+					<button class="nav-btn active" data-page="inicio">Filmes</button>
+					<button class="nav-btn" data-page="admin">Admin</button>
+				</nav>
+			</div>
+		</header>
+
+		<!-- PÁGINA INICIAL - LISTA DE FILMES -->
+		<div id="inicio" class="page active">
+			<div class="container">
+				<h2 class="section-title">Filmes em Destaque</h2>
+				<div class="filmes-grid" id="filmesGrid">
+					<!-- Filmes serão inseridos aqui via JS -->
+				</div>
+			</div>
+		</div>
+
+		<!-- PÁGINA ADMIN -->
+		<div id="admin" class="page">
+			<div class="container">
+				<h2 class="section-title">Painel de Administração</h2>
+
+				<!-- SEÇÃO: CRIAR NOVO FILME -->
+				<div class="admin-section">
+					<h3>➕ Criar Novo Filme</h3>
+					<form id="formNovoFilme" class="form-admin">
+						<div class="form-group">
+							<label for="titulo">Título do Filme *</label>
+							<input type="text" id="titulo" name="titulo" required />
+						</div>
+
+						<div class="form-group">
+							<label for="sinopse">Sinopse *</label>
+							<textarea id="sinopse" name="sinopse" rows="4" required></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="poster">Link da Imagem (Poster) *</label>
+							<input
+								type="url"
+								id="poster"
+								name="poster"
+								placeholder="https://exemplo.com/imagem.jpg"
+								required
+							/>
+						</div>
+
+						<button type="submit" class="btn btn-primary">Criar Filme</button>
+					</form>
+				</div>
+
+				<!-- SEÇÃO: EDITAR FILMES -->
+				<div class="admin-section">
+					<h3>✏️ Editar Filmes</h3>
+					<div id="filmesEditavelList" class="filmes-admin-list">
+						<!-- Filmes aparecem aqui -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- MODAL - AVALIAR FILME -->
+		<div id="modalAvaliacao" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<h3>⭐ Avaliar Filme</h3>
+
+				<div class="modal-filme-info">
+					<img id="modalFilmePoster" src="" alt="Poster" />
+					<div>
+						<h4 id="modalFilmeTitulo"></h4>
+						<p id="modalFilmeSinopse"></p>
+					</div>
+				</div>
+
+				<form id="formAvaliacao">
+					<div class="form-group">
+						<label for="nota">Nota (1 a 5 estrelas) *</label>
+						<div class="stars-rating">
+							<input type="radio" name="nota" value="5" id="star5" />
+							<label for="star5">⭐</label>
+
+							<input type="radio" name="nota" value="4" id="star4" />
+							<label for="star4">⭐</label>
+
+							<input type="radio" name="nota" value="3" id="star3" />
+							<label for="star3">⭐</label>
+
+							<input type="radio" name="nota" value="2" id="star2" />
+							<label for="star2">⭐</label>
+
+							<input type="radio" name="nota" value="1" id="star1" />
+							<label for="star1">⭐</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="comentario">Comentário (opcional)</label>
+						<textarea
+							id="comentario"
+							name="comentario"
+							rows="3"
+							placeholder="Qual é sua opinião sobre este filme?"
+						></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+				</form>
+
+				<!-- LISTA DE AVALIAÇÕES DO FILME -->
+				<div class="avaliacoes-list">
+					<h4>Avaliações Recentes</h4>
+					<div id="avaliacoesList"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- MODAL - EDITAR FILME -->
+		<div id="modalEdicao" class="modal">
+			<div class="modal-content modal-edicao">
+				<span class="close">&times;</span>
+				<h3>✏️ Editar Filme</h3>
+
+				<form id="formEdicaoFilme">
+					<input type="hidden" id="editFilmeId" />
+
+					<div class="form-group">
+						<label for="editTitulo">Título *</label>
+						<input type="text" id="editTitulo" required />
+					</div>
+
+					<div class="form-group">
+						<label for="editSinopse">Sinopse *</label>
+						<textarea id="editSinopse" rows="4" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="editPoster">Link da Imagem *</label>
+						<input type="url" id="editPoster" required />
+					</div>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">Salvar Alterações</button>
+						<button type="button" class="btn btn-danger" id="btnDeletarFilme">Deletar Filme</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- TOAST DE NOTIFICAÇÕES -->
+		<div id="toast" class="toast"></div>
+
+		<script src="index.js"></script>
+	</body>
+</html>
